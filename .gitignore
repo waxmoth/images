@@ -1,0 +1,12 @@
+## IDEs ###
+.DS_Store
+.idea
+.vscode
+
+## Packages ##
+node_modules
+vendor
+.env
+.serverless
+data
+docker-compose.override.yml

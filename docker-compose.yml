@@ -1,0 +1,15 @@
+version: '3.5'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+    volumes:
+      - .:/go/src/image-functions
+      - ~/.aws:/root/.aws # Use to deploy the lambda function by serverless
+    ports:
+      - 3001:8080
+    env_file: 
+      - ./.env
+    command: bash -c "npm run watch"

@@ -1,0 +1,29 @@
+service: product-functions
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: go1.x
+  stage: ${env:APP_STAGE}
+  region: ${env:AWS_REGION}
+  timeout: 6
+  apiGateway:
+    shouldStartNameWithService: true
+
+package:
+  individually: true
+  exclude:
+    - ./**
+  include:
+    - ./bin/**
+
+plugins:
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    host: 0.0.0.0 # for docker container hosting
+
+functions:
+  - '${file(src/handlers.yml)}'

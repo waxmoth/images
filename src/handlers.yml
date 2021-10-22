@@ -1,0 +1,4 @@
+getImage:
+  handler: ./bin/main
+  events:
+    - http: get /image

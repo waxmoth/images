@@ -1,0 +1,24 @@
+{
+  "name": "image-functions",
+  "description": "The image functions created by Golang",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "make run-dev",
+    "start": "node ../node_modules/.bin/serverless offline start --useDocker --stage=dev",
+    "watch": "npm-watch"
+  },
+  "devDependencies": {
+    "npm-watch": "^0.9.0",
+    "serverless": "^2.40.0",
+    "serverless-offline": "^7.0.0"
+  },
+  "watch": {
+    "dev": {
+      "patterns": [
+        "src"
+      ],
+      "extensions": "go,yml",
+      "quiet": false
+    }
+  }
+}
