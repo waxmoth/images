@@ -12,4 +12,4 @@ services:
       - 3001:8080
     env_file: 
       - ./.env
-    command: bash -c "npm run watch"
+    command: bash -c "npm --prefix /go/src/image-functions/.node run watch"

@@ -18,6 +18,11 @@ The image service writen by golang
 docker-compose build
 ```
 
+* Install required libraries
+```shell script
+docker-compose run --rm app bash -c "npm --prefix /go/src/image-functions/.node install
+```
+
 * Run the binary file build and watch
 ```shell script
 docker-compose up -d
@@ -25,7 +30,7 @@ docker-compose up -d
 
 * Start the serverless offline, there no runner for runtime go1.x in the serverless offline, so use the docker to run it
 ```shell script
-./node_modules/.bin/serverless offline start --useDocker --stage=dev
+.node/node_modules/.bin/serverless offline start --useDocker --stage=dev
 ```
 
 * Run or Debug it by IDE

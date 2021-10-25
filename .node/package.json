@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "make run-dev",
-    "start": "node ../node_modules/.bin/serverless offline start --useDocker --stage=dev",
+    "start": ".node/node_modules/.bin/serverless offline start --useDocker --stage=dev",
     "watch": "npm-watch"
   },
   "devDependencies": {

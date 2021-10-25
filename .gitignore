@@ -4,7 +4,7 @@
 .vscode
 
 ## Packages ##
-node_modules
+.node/node_modules
 vendor
 .env
 .serverless
