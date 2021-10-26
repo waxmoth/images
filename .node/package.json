@@ -15,7 +15,7 @@
   "watch": {
     "dev": {
       "patterns": [
-        "src"
+        "../src"
       ],
       "extensions": "go,yml",
       "quiet": false

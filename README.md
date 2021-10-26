@@ -18,9 +18,14 @@ The image service writen by golang
 docker-compose build
 ```
 
-* Install required libraries
+* Install required NodeJS libraries
 ```shell script
-docker-compose run --rm app bash -c "npm --prefix /go/src/image-functions/.node install
+docker-compose run --rm app bash -c "npm --prefix /go/src/image-functions/.node install"
+```
+
+* Install required Golang libraries
+```shell script
+docker-compose run --rm app bash -c "go mod download && go mod vendor"
 ```
 
 * Run the binary file build and watch

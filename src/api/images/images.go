@@ -33,6 +33,7 @@ func GetImage(ct *gin.Context) {
 	}
 	buffer := new(bytes.Buffer)
 	if err := jpeg.Encode(buffer, img, nil); err != nil {
+		log.Printf("Failed to encode image|%s|Error:%s", request.Url, err.Error())
 		api.ReturnError(http.StatusInternalServerError, "Unable to encode image", ct)
 	}
 
