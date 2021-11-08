@@ -9,7 +9,3 @@ RUN apt update && apt install -y -q curl git ssh wget awscli
 
 # Install node and serverless
 RUN apt install -y -q nodejs npm
-
-RUN npm install -g serverless
-
-RUN npm install -g serverless-offline

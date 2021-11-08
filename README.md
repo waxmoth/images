@@ -23,6 +23,11 @@ docker-compose build
 docker-compose run --rm app bash -c "npm --prefix /go/src/image-functions/.node install"
 ```
 
+* If you want install some NodeJS packages
+```shell script
+docker-compose run --rm app bash -c "npm --prefix /go/src/image-functions/.node install serverless --save-dev"
+```
+
 * Install required Golang libraries
 ```shell script
 docker-compose run --rm app bash -c "go mod download && go mod vendor"
@@ -31,6 +36,11 @@ docker-compose run --rm app bash -c "go mod download && go mod vendor"
 * Run the binary file build and watch
 ```shell script
 docker-compose up -d
+```
+
+* Build the production file
+```shell script
+docker-compose run --rm app make build
 ```
 
 * Start the serverless offline, there no runner for runtime go1.x in the serverless offline, so use the docker to run it
