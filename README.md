@@ -1,11 +1,11 @@
 # Go images
-The image service writen by golang
+The image service written by golang.
 
 ## Features
-1. Download image from url
+1. Download image from url;
 2. Crop the image;
 3. Compress the image size;
-4. Upload to the cloud service
+4. Upload to the cloud service;
 
 ## Dependencies
 1. [Docker](https://www.docker.com/)
@@ -13,6 +13,11 @@ The image service writen by golang
 
 
 ## Development
+* Copy and set environment values
+```shell script
+cp .env.dist .env
+```
+
 * Build image in your local
 ```shell script
 docker-compose build
