@@ -13,7 +13,7 @@ import (
 
 func GetImage(ct *gin.Context) {
 	var request requests.GetImage
-	err := ct.Bind(&request)
+	err := ct.ShouldBind(&request)
 	if err != nil {
 		api.ReturnError(http.StatusBadRequest, err.Error(), ct)
 		return

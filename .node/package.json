@@ -18,7 +18,9 @@
         "../src"
       ],
       "extensions": "go,yml",
-      "quiet": false
+      "quiet": false,
+      "silent": true,
+      "delay": 1000
     }
   }
 }
