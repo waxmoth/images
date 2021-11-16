@@ -1,7 +1,5 @@
 .PHONY: clean build package
 
-PID = /tmp/image-go.pid
-
 build:
 	@echo "Building lambda package ..."
 	go build -ldflags="-s -w" -o ../bin/main ../src/lambda/main.go
@@ -15,14 +13,14 @@ deploy: clean build
 	sls deploy --verbose
 
 ## Makes for development
-build-dev: clean
+build-dev: stop-dev clean
 	@echo "Building development package ..."
 	go build -mod=readonly -ldflags="-s -w" -o ../bin/main-dev ../src/main.go
 
 run-dev: build-dev
 	@echo "Starting the application ..."
-	../bin/main-dev & echo $$! > $(PID)
+	../bin/main-dev & echo $$! > /tmp/image-go.pid
 
 stop-dev:
 	@echo "Stopping the application ..."
-	@kill `cat $(PID)` || true
+	@kill `cat /tmp/image-go.pid` || true
