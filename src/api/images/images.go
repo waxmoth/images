@@ -19,12 +19,12 @@ func GetImage(ct *gin.Context) {
 		return
 	}
 	res, err := http.Get(request.Url)
-	defer res.Body.Close()
 	if err != nil {
 		log.Printf("Failed to get image|%s|Error:%s", request.Url, err.Error())
 		api.ReturnError(http.StatusBadRequest, "The image cannot found", ct)
 		return
 	}
+	defer res.Body.Close()
 
 	img, _, err := image.Decode(res.Body)
 	if err != nil {

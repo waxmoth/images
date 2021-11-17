@@ -63,3 +63,19 @@ vim <GO_SDK_PATH>/src/runtime/internal/sys/zversion.go
 # ADD the const TheVersion
 const TheVersion = `go1.17.*`
 ```
+
+## Local S3 service based on [LocalStack](https://localstack.cloud/)
+
+* Create and use local S3 bucket
+```shell script
+aws --endpoint-url http://localhost:4566 s3api create-bucket --bucket test
+
+# List buckets
+aws --endpoint-url http://localhost:4566 s3api list-buckets
+
+# Copy one file into S3
+aws --endpoint-url http://localhost:4566 s3 cp README.md s3://test/
+
+# List the copied file
+aws --endpoint-url http://localhost:4566 s3 ls s3://test/
+```
