@@ -1,4 +1,6 @@
-.PHONY: clean build package
+.PHONY: clean build
+
+APP_BINARY_NAME=main
 
 build:
 	@echo "Building lambda package ..."
@@ -8,7 +10,11 @@ clean:
 	@echo "Cleaning package ..."
 	@rm -rf ../bin/main*
 
-deploy: clean build
+test:
+	@echo "Testing the project ..."
+	go test -v ../tests
+
+deploy: test clean build
 	@echo "Deploying application ..."
 	sls deploy --verbose
 

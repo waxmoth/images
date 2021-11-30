@@ -11,20 +11,26 @@ services:
     ports:
       - 3001:8080
     env_file: 
-      - ./.env
+      - .env
     command: bash -c "npm --prefix /go/src/image-functions/.node run watch"
 
   aws:
     image: localstack/localstack:latest
     environment:
       # For more services: https://github.com/localstack/localstack/blob/master/doc/feature_coverage.md
+      #                    http://localhost:4566/health
       - SERVICES=s3
-      - DEFAULT_REGION=ap-east-1
       - DATA_DIR=/tmp/localstack/data
+      - DEBUG=1
+    env_file:
+      - .env
     ports:
       - 4566:4566
+      - 4571:4571
+      - 5678:5678
     volumes:
-      - localstack-data:/tmp/localstack
+      - ./data:/tmp/localstack
+#      - localstack-data:/tmp/localstack
 
 volumes:
   localstack-data:
