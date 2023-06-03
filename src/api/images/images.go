@@ -5,7 +5,10 @@ import (
 	"github.com/gin-gonic/gin"
 	"image"
 	"image-functions/src/api"
+	"image-functions/src/consts"
 	"image-functions/src/models/requests"
+	"image-functions/src/services/storage"
+	"image-functions/src/utils"
 	"image/jpeg"
 	"log"
 	"net/http"
@@ -18,13 +21,31 @@ func GetImage(ct *gin.Context) {
 		api.ReturnError(http.StatusBadRequest, err.Error(), ct)
 		return
 	}
+
+	var storageService storage.Storage
+	_, hasStorageService := ct.Get("StorageService")
+	if hasStorageService {
+		storageService = ct.MustGet("StorageService").(storage.Storage)
+	}
+
+	if request.Name != "" && storageService != nil {
+		ct.Header(consts.HeaderFileName, request.Name)
+		storageBuf, err := storageService.GetFile(request.Name)
+		if err == nil {
+			api.ReturnFile(http.StatusOK, http.DetectContentType(storageBuf), storageBuf, ct)
+			return
+		} else {
+			log.Printf("Failed to get file from stroage|%s|Error:%s", request.Name, err.Error())
+		}
+	}
+
 	res, err := http.Get(request.Url)
-	defer res.Body.Close()
 	if err != nil {
 		log.Printf("Failed to get image|%s|Error:%s", request.Url, err.Error())
 		api.ReturnError(http.StatusBadRequest, "The image cannot found", ct)
 		return
 	}
+	defer res.Body.Close()
 
 	img, _, err := image.Decode(res.Body)
 	if err != nil {
@@ -35,7 +56,12 @@ func GetImage(ct *gin.Context) {
 	if err := jpeg.Encode(buffer, img, nil); err != nil {
 		log.Printf("Failed to encode image|%s|Error:%s", request.Url, err.Error())
 		api.ReturnError(http.StatusInternalServerError, "Unable to encode image", ct)
+		return
 	}
 
-	api.ReturnFile(http.StatusOK, "image/jpeg", buffer.Bytes(), ct)
+	contextType := http.DetectContentType(buffer.Bytes())
+	fileName := utils.GetOrCreateFileName(ct.Writer.Header().Get(consts.HeaderFileName), contextType)
+	ct.Header(consts.HeaderFileName, fileName)
+
+	api.ReturnFile(http.StatusOK, contextType, buffer.Bytes(), ct)
 }
