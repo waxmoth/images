@@ -4,7 +4,7 @@ APP_BINARY_NAME=main
 
 build:
 	@echo "Building lambda package ..."
-	go build -ldflags="-s -w" -o ../bin/main ../src/lambda/main.go
+	export GIN_MODE=release && go build -ldflags="-s -w" -o ../bin/main ../src/lambda/main.go
 
 clean:
 	@echo "Cleaning package ..."
@@ -12,7 +12,11 @@ clean:
 
 test:
 	@echo "Testing the project ..."
-	go test -v ../tests
+	export GIN_MODE=release && go test -v ../tests/...
+
+benchmark:
+	@echo "Benchmarking the project ..."
+	export GIN_MODE=test && go test -v ../tests/... -bench=. -count 5 -benchmem -run=^#
 
 deploy: test clean build
 	@echo "Deploying application ..."

@@ -28,7 +28,7 @@ docker-compose build
 docker-compose run --rm app bash -c "npm --prefix /go/src/image-functions/.node install"
 ```
 
-* If you want install some NodeJS packages
+* If you want to install some NodeJS packages
 ```shell script
 docker-compose run --rm app bash -c "npm --prefix /go/src/image-functions/.node install serverless --save-dev"
 ```

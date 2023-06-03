@@ -32,3 +32,11 @@ func TestImageAPIReturnError(t *testing.T) {
 		t.Fatalf("Expected \"application/json; charset=utf-8\", got %s", val[0])
 	}
 }
+
+func BenchmarkImageAPI(b *testing.B) {
+	ts := httptest.NewServer(routers.Routers())
+	defer ts.Close()
+	for i := 0; i < b.N; i++ {
+		http.Get(fmt.Sprintf("%s/image", ts.URL))
+	}
+}
