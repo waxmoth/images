@@ -51,7 +51,7 @@ func (storageServ *S3Service) GetFile(fileName string) ([]byte, error) {
 	return buf, err
 }
 
-func (storageServ *S3Service) UploadFile(buf []byte, fileName string) (string, error) {
+func (storageServ *S3Service) UploadFile(buf []byte, fileName string) bool {
 	_, err := storageServ.s3Client.PutObject(&s3.PutObjectInput{
 		Bucket: aws.String(storageServ.Bucket),
 		Key:    aws.String(fileName),
@@ -60,7 +60,7 @@ func (storageServ *S3Service) UploadFile(buf []byte, fileName string) (string, e
 	if err != nil {
 		log.Printf("S3Service|UploadFile|Cannot upload the file %s|Error: %s", fileName, err)
 	}
-	return "", nil
+	return err == nil
 }
 
 func (storageServ *S3Service) BucketExists(bucketName string) bool {

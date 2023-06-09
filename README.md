@@ -48,6 +48,16 @@ docker-compose up -d
 docker-compose run --rm app make build
 ```
 
+* Run the unit test
+```shell script
+docker-compose run --rm app make test
+```
+
+* Run the benchmark
+```shell script
+docker-compose run --rm app make benchmark
+```
+
 * Start the serverless offline, there no runner for runtime go1.x in the serverless offline, so use the docker to run it
 ```shell script
 .node/node_modules/.bin/serverless offline start --useDocker --stage=dev

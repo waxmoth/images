@@ -7,7 +7,6 @@ import (
 	"image-functions/src/api"
 	"image-functions/src/consts"
 	"image-functions/src/models/requests"
-	"image-functions/src/services/storage"
 	"image-functions/src/utils"
 	"image/jpeg"
 	"log"
@@ -20,23 +19,6 @@ func GetImage(ct *gin.Context) {
 	if err != nil {
 		api.ReturnError(http.StatusBadRequest, err.Error(), ct)
 		return
-	}
-
-	var storageService storage.Storage
-	_, hasStorageService := ct.Get("StorageService")
-	if hasStorageService {
-		storageService = ct.MustGet("StorageService").(storage.Storage)
-	}
-
-	if request.Name != "" && storageService != nil {
-		ct.Header(consts.HeaderFileName, request.Name)
-		storageBuf, err := storageService.GetFile(request.Name)
-		if err == nil {
-			api.ReturnFile(http.StatusOK, http.DetectContentType(storageBuf), storageBuf, ct)
-			return
-		} else {
-			log.Printf("Failed to get file from stroage|%s|Error:%s", request.Name, err.Error())
-		}
 	}
 
 	res, err := http.Get(request.Url)
