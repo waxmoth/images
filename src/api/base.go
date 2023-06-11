@@ -50,7 +50,10 @@ func createProcessedID(c *gin.Context) string {
 	}
 
 	u := make([]byte, 8)
-	rand.Read(u)
+	_, err := rand.Read(u)
+	if err != nil {
+		return ""
+	}
 	return hex.EncodeToString(u)
 }
 
