@@ -8,6 +8,10 @@ clean:
 	@echo "Cleaning package ..."
 	@rm -rf ./bin/main*
 
+install:
+	@echo "Installing package ..."
+	go mod download && go mod vendor
+
 test:
 	@echo "Testing the project ..."
 	export GIN_MODE=release && go test -v ./tests/...
