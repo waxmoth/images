@@ -13,6 +13,7 @@ import (
 	"net/http"
 )
 
+// GetImage support fetch image from url and return to client
 func GetImage(ct *gin.Context) {
 	var request requests.GetImage
 	err := ct.ShouldBind(&request)
@@ -21,9 +22,9 @@ func GetImage(ct *gin.Context) {
 		return
 	}
 
-	res, err := http.Get(request.Url)
+	res, err := http.Get(request.URL)
 	if err != nil {
-		log.Printf("Failed to get image|%s|Error:%s", request.Url, err.Error())
+		log.Printf("Failed to get image|%s|Error:%s", request.URL, err.Error())
 		api.ReturnError(http.StatusBadRequest, "The image cannot found", ct)
 		return
 	}
@@ -36,7 +37,7 @@ func GetImage(ct *gin.Context) {
 	}
 	buffer := new(bytes.Buffer)
 	if err := jpeg.Encode(buffer, img, nil); err != nil {
-		log.Printf("Failed to encode image|%s|Error:%s", request.Url, err.Error())
+		log.Printf("Failed to encode image|%s|Error:%s", request.URL, err.Error())
 		api.ReturnError(http.StatusInternalServerError, "Unable to encode image", ct)
 		return
 	}

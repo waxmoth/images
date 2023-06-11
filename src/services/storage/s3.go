@@ -10,6 +10,7 @@ import (
 	"log"
 )
 
+// S3Service the S3 service configure and client
 type S3Service struct {
 	AccessKeyID     string
 	SecretAccessKey string
@@ -20,6 +21,7 @@ type S3Service struct {
 	s3Client        *s3.S3
 }
 
+// Initial create s3 service from the configures
 func (storageServ *S3Service) Initial() error {
 	credentials := credentials.NewStaticCredentials(storageServ.AccessKeyID, storageServ.SecretAccessKey, "")
 	_, err := credentials.Get()
@@ -38,6 +40,7 @@ func (storageServ *S3Service) Initial() error {
 	return nil
 }
 
+// GetFile get file buffer from s3, return error if you cannot get it
 func (storageServ *S3Service) GetFile(fileName string) ([]byte, error) {
 	res, err := storageServ.s3Client.GetObject(&s3.GetObjectInput{
 		Bucket: aws.String(storageServ.Bucket),
@@ -51,6 +54,7 @@ func (storageServ *S3Service) GetFile(fileName string) ([]byte, error) {
 	return buf, err
 }
 
+// UploadFile upload the file into s3 service
 func (storageServ *S3Service) UploadFile(buf []byte, fileName string) bool {
 	_, err := storageServ.s3Client.PutObject(&s3.PutObjectInput{
 		Bucket: aws.String(storageServ.Bucket),
@@ -63,6 +67,7 @@ func (storageServ *S3Service) UploadFile(buf []byte, fileName string) bool {
 	return err == nil
 }
 
+// BucketExists check if the bucket exists
 func (storageServ *S3Service) BucketExists(bucketName string) bool {
 	_, err := storageServ.s3Client.HeadBucket(&s3.HeadBucketInput{Bucket: aws.String(bucketName)})
 	if err != nil {
@@ -73,6 +78,7 @@ func (storageServ *S3Service) BucketExists(bucketName string) bool {
 	return true
 }
 
+// FileExists check if the file exists
 func (storageServ *S3Service) FileExists(fileName string) bool {
 	_, err := storageServ.s3Client.HeadObject(&s3.HeadObjectInput{
 		Bucket: aws.String(storageServ.Bucket),

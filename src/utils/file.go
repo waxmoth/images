@@ -5,6 +5,7 @@ import (
 	"strings"
 )
 
+// GetOrCreateFileName get or generate file name from the context type
 func GetOrCreateFileName(fileName string, contextType string) string {
 	if fileName != "" {
 		return fileName

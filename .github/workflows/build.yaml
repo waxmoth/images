@@ -13,6 +13,8 @@ jobs:
           go-version: '1.17.x'
       - name: Install dependencies
         run: make install
+      - name: Lint check
+        uses: golangci/golangci-lint-action@v3
       - name: Build
         run: make build
       - name: Testing

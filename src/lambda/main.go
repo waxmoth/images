@@ -18,11 +18,11 @@ func init() {
 	ginLambda = ginadapter.New(routers.Routers())
 }
 
-func Handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+func handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	// If no name is provided in the HTTP request body, throw an error
 	return ginLambda.ProxyWithContext(ctx, req)
 }
 
 func main() {
-	lambda.Start(Handler)
+	lambda.Start(handler)
 }

@@ -1,5 +1,6 @@
 package storage
 
+// Storage interface
 type Storage interface {
 	Initial() error
 	UploadFile(buf []byte, fileName string) bool

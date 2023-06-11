@@ -20,6 +20,7 @@ func (sw storageWriter) Write(buf []byte) (int, error) {
 	return sw.ResponseWriter.Write(buf)
 }
 
+// StorageMiddleware handle return or upload file to the storage service
 func StorageMiddleware() gin.HandlerFunc {
 	return func(ct *gin.Context) {
 		if os.Getenv("AWS_ACCESS_KEY_ID") == "" || os.Getenv("AWS_SECRET_ACCESS_KEY") == "" {

@@ -7,6 +7,7 @@ import (
 	"os"
 )
 
+// Routers the api routers
 func Routers() *gin.Engine {
 	gin.DisableConsoleColor()
 
