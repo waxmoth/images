@@ -5,8 +5,8 @@ frameworkVersion: '2'
 provider:
   name: aws
   runtime: go1.x
-  stage: ${env:APP_STAGE}
-  region: ${env:AWS_REGION}
+  stage: ${env:APP_STAGE, 'dev'}
+  region: ${env:AWS_DEFAULT_REGION, 'eu-central-1'}
   timeout: 6
   apiGateway:
     shouldStartNameWithService: true

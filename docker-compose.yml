@@ -9,7 +9,29 @@ services:
       - .:/go/src/image-functions
       - ~/.aws:/root/.aws # Use to deploy the lambda function by serverless
     ports:
-      - 3001:8080
+      - "3001:8080"
     env_file: 
-      - ./.env
-    command: bash -c "npm run watch"
+      - .env
+    command: bash -c "npm --prefix /go/src/image-functions/.node run watch"
+
+  aws:
+    image: localstack/localstack:0.12.20 # The storage persistence only supports community services below 0.13.0
+    environment:
+      # For more services: https://github.com/localstack/localstack/blob/master/doc/feature_coverage.md
+      #                    http://localhost:4566/health
+      - SERVICES=s3
+      - DATA_DIR=/tmp/localstack/data
+      - DEBUG=1
+    env_file:
+      - .env
+    ports:
+      - "4566:4566"
+      - "4571:4571"
+      - "5678:5678"
+    volumes:
+      - localstack-data:/tmp/localstack
+
+volumes:
+  localstack-data:
+    name: localstack_data
+    external: true
