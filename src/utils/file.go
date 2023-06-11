@@ -5,13 +5,14 @@ import (
 	"strings"
 )
 
+// GetOrCreateFileName get or generate file name from the context type
 func GetOrCreateFileName(fileName string, contextType string) string {
 	if fileName != "" {
 		return fileName
 	}
 
 	typeArr := strings.Split(contextType, "/")
-	if len(typeArr) < 2 || strings.Index("/image/video/audio", typeArr[0]) == -1 {
+	if len(typeArr) < 2 || !strings.Contains("/image/video/audio", typeArr[0]) {
 		return fileName
 	}
 

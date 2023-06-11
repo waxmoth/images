@@ -6,6 +6,7 @@ import (
 	"image-functions/src/consts"
 	"image-functions/src/services/storage"
 	"log"
+	"net/http"
 	"os"
 )
 
@@ -19,6 +20,7 @@ func (sw storageWriter) Write(buf []byte) (int, error) {
 	return sw.ResponseWriter.Write(buf)
 }
 
+// StorageMiddleware handle return or upload file to the storage service
 func StorageMiddleware() gin.HandlerFunc {
 	return func(ct *gin.Context) {
 		if os.Getenv("AWS_ACCESS_KEY_ID") == "" || os.Getenv("AWS_SECRET_ACCESS_KEY") == "" {
@@ -43,16 +45,26 @@ func StorageMiddleware() gin.HandlerFunc {
 			return
 		}
 
+		// Note: Get the file from the storage and return the file directly if it is exists
+		fileName, hasFileNameQuery := ct.GetQuery(consts.HeaderFileName)
+		if hasFileNameQuery {
+			ct.Header(consts.HeaderFileName, fileName)
+			storageBuf, err := storageService.GetFile(fileName)
+			if err == nil {
+				ct.Data(http.StatusOK, http.DetectContentType(storageBuf), storageBuf)
+				ct.Abort()
+				return
+			}
+		}
+
 		storageWriter := &storageWriter{body: bytes.NewBufferString(""), ResponseWriter: ct.Writer}
 		ct.Writer = storageWriter
-		ct.Set("StorageService", storageService)
 		ct.Next()
 
 		// Note: Save the file into storage service
-		fileName := ct.Writer.Header().Get(consts.HeaderFileName)
-		statusCode := ct.Writer.Status()
-		if statusCode < 300 && fileName != "" && storageWriter.body != nil {
-			storageService.UploadFile(storageWriter.body.Bytes(), fileName)
+		fileName = ct.Writer.Header().Get(consts.HeaderFileName)
+		if fileName != "" && ct.Writer.Status() < 300 && storageWriter.body != nil {
+			defer storageService.UploadFile(storageWriter.body.Bytes(), fileName)
 		}
 	}
 }

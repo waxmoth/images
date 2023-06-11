@@ -37,6 +37,9 @@ func BenchmarkImageAPI(b *testing.B) {
 	ts := httptest.NewServer(routers.Routers())
 	defer ts.Close()
 	for i := 0; i < b.N; i++ {
-		http.Get(fmt.Sprintf("%s/image", ts.URL))
+		_, err := http.Get(fmt.Sprintf("%s/image", ts.URL))
+		if err != nil {
+			return
+		}
 	}
 }
