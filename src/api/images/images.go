@@ -1,14 +1,11 @@
 package images
 
 import (
-	"bytes"
 	"github.com/gin-gonic/gin"
-	"image"
 	"image-functions/src/api"
 	"image-functions/src/consts"
 	"image-functions/src/models/requests"
 	"image-functions/src/utils"
-	"image/jpeg"
 	"log"
 	"net/http"
 )
@@ -30,13 +27,26 @@ func GetImage(ct *gin.Context) {
 	}
 	defer res.Body.Close()
 
-	img, _, err := image.Decode(res.Body)
+	img, format, err := utils.DecodeImage(res.Body)
 	if err != nil {
+		log.Printf("Failed decode image|%s|Error:%s", format, err.Error())
 		api.ReturnError(http.StatusBadRequest, "The image format not support yet", ct)
 		return
 	}
-	buffer := new(bytes.Buffer)
-	if err := jpeg.Encode(buffer, img, nil); err != nil {
+
+	if request.Width > 0 && request.Height > 0 {
+		switch request.Type {
+		case consts.HandleResize:
+			img = utils.ResizeImage(img, request.Width, request.Height)
+		case consts.HandleCrop:
+			img = utils.CropImage(img, request.PositionX, request.PositionY, request.Width, request.Height)
+		default:
+			img = utils.CropImage(img, request.PositionX, request.PositionY, request.Width, request.Height)
+		}
+	}
+
+	buffer, err := utils.ImageToBuffer(img, format)
+	if err != nil {
 		log.Printf("Failed to encode image|%s|Error:%s", request.URL, err.Error())
 		api.ReturnError(http.StatusInternalServerError, "Unable to encode image", ct)
 		return
