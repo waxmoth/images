@@ -8,18 +8,21 @@ updates:
   # Maintain dependencies for GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
+    target-branch: "develop"
     schedule:
       interval: "weekly"
 
   # Maintain dependencies for Golang
   - package-ecosystem: "gomod"
     directory: "/"
+    target-branch: "develop"
     schedule:
       interval: "weekly"
-    open-pull-requests-limit: 20
+    open-pull-requests-limit: 10
 
   # Maintain dependencies for Serverless
   - package-ecosystem: "npm"
     directory: "/.node"
     schedule:
       interval: "weekly"
+    open-pull-requests-limit: 2
