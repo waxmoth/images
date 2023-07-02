@@ -1,4 +1,6 @@
 getImage:
   handler: ./bin/main
   events:
-    - http: get /image
+    - httpApi:
+        method: GET
+        path: /image
