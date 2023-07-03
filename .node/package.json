@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "npm-watch": "^0.9.0",
-    "serverless": "^2.40.0",
+    "serverless": "^3.33.0",
     "serverless-offline": "^7.0.0"
   },
   "watch": {
