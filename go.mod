@@ -8,7 +8,7 @@ require (
 	github.com/awslabs/aws-lambda-go-api-proxy v0.11.0
 	github.com/gin-gonic/gin v1.7.1
 	github.com/google/uuid v1.3.0
-	golang.org/x/image v0.8.0
+	golang.org/x/image v0.9.0
 )
 
 require (
