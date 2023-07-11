@@ -1,0 +1,25 @@
+# .github/release.yml
+
+changelog:
+  exclude:
+    labels:
+      - 'ignore for release'
+      - dependencies
+    authors:
+      - dependabot
+  categories:
+    - title: 'Breaking Changes'
+      labels:
+        - 'breaking change'
+    - title: 'New Features'
+      labels:
+        - enhancement
+    - title: 'Documentations'
+      labels:
+        - documentation
+    - title: 'Bug Fixes'
+      labels:
+        - bug
+    - title: 'Other Changes'
+      labels:
+        - "*"
