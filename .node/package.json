@@ -1,7 +1,7 @@
 {
   "name": "image-functions",
   "description": "The image functions created by Golang",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "scripts": {
     "dev": "make run-dev",
     "start": ".node/node_modules/.bin/serverless offline start --useDocker --stage=dev",
