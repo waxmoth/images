@@ -28,22 +28,20 @@ func DecodeImage(body io.Reader) (image.Image, string, error) {
 	return img, format, err
 }
 
-// ResizeImage resize image to special size
+// ResizeImage resize image to special size and keep the ratio
 func ResizeImage(img image.Image, width, height int) image.Image {
-	if height > img.Bounds().Max.Y {
-		height = img.Bounds().Max.Y
-	}
-	if width > img.Bounds().Max.X {
-		width = img.Bounds().Max.X
-	}
-	if img.Bounds().Max.X > img.Bounds().Max.Y && height > width {
-		height = width
-	}
-	if img.Bounds().Max.X < img.Bounds().Max.Y && height < width {
-		width = height
+	ratio := float32(img.Bounds().Max.X) / float32(img.Bounds().Max.Y)
+	if width > height {
+		width = int(float32(height) * ratio)
+	} else {
+		height = int(float32(width) / ratio)
 	}
 	dst := image.NewRGBA(image.Rect(0, 0, width, height))
-	draw.ApproxBiLinear.Scale(dst, dst.Rect, img, img.Bounds(), draw.Over, nil)
+	if width > img.Bounds().Max.X || height > img.Bounds().Max.Y {
+		draw.CatmullRom.Scale(dst, dst.Rect, img, img.Bounds(), draw.Over, nil)
+	} else {
+		draw.ApproxBiLinear.Scale(dst, dst.Rect, img, img.Bounds(), draw.Over, nil)
+	}
 	return dst
 }
 
