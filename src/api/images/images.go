@@ -19,7 +19,14 @@ func GetImage(ct *gin.Context) {
 		return
 	}
 
-	res, err := http.Get(request.URL)
+	parsedURL, err := utils.ParseURL(request.URL, ct)
+	if err != nil {
+		log.Printf("Failed to parse url|%s|Error:%s", request.URL, err.Error())
+		api.ReturnError(http.StatusBadRequest, "The url is invalid", ct)
+		return
+	}
+
+	res, err := http.Get(parsedURL.Scheme + "://" + parsedURL.Host + parsedURL.Path)
 	if err != nil {
 		log.Printf("Failed to get image|%s|Error:%s", request.URL, err.Error())
 		api.ReturnError(http.StatusBadRequest, "The image cannot found", ct)

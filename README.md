@@ -89,3 +89,34 @@ aws --endpoint-url http://localhost:4566 s3 cp README.md s3://test/
 # List the copied file
 aws --endpoint-url http://localhost:4566 s3 ls s3://test/
 ```
+
+## Sign your request body and test the API from Postman
+
+* Load this pre-request script in the postman, or import this [collection](doc/postman/api_collection.json)
+
+```javascript
+const jwtHeader = btoa(JSON.stringify(
+    {
+        alg: 'HS256',
+        typ: 'JWT'
+    }
+)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
+
+const jwtBody = btoa(JSON.stringify(
+    {
+        app: 'image-functions',
+        data: {
+            hosts: 'lmg.jj20.com'
+        },
+        exp: Math.floor(Date.now() / 1000) + 7200
+    }
+)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
+
+const hmac = CryptoJS.HmacSHA256(jwtHeader + '.' + jwtBody, pm.environment.get('AUTH_KEY'));
+const hmacBase64 = CryptoJS.enc.Base64.stringify(hmac).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
+
+pm.request.headers.add({
+    key: 'Authorization',
+    value: 'Bearer ' + jwtHeader + '.' + jwtBody + '.' + hmacBase64
+});
+```

@@ -18,6 +18,7 @@ func Routers() *gin.Engine {
 
 	r.Use(
 		gin.Recovery(),
+		middlewares.AuthMiddleware(),
 		middlewares.StorageMiddleware(),
 	)
 

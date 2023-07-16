@@ -1,0 +1,79 @@
+{
+  "info": {
+    "_postman_id": "919e039e-ffcc-4d4c-b351-cdbc4091ce5a",
+    "name": "Image servers",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "2952825"
+  },
+  "item": [
+    {
+      "name": "Fetch image",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "const jwtHeader = btoa(JSON.stringify(",
+              "    {",
+              "        \"alg\": \"HS256\",",
+              "        \"typ\": \"JWT\"",
+              "    }",
+              ")).replace(/\\+/g, '-').replace(/\\//g, '_').replace(/=+$/g, '');",
+              "",
+              "const jwtBody = btoa(JSON.stringify(",
+              "    {",
+              "        \"app\": \"image-functions\",",
+              "        \"data\": {",
+              "            \"hosts\": \"lmg.jj20.com\"",
+              "        },",
+              "        \"exp\": Math.floor(Date.now() / 1000) + 7200",
+              "    }",
+              ")).replace(/\\+/g, '-').replace(/\\//g, '_').replace(/=+$/g, '');",
+              "",
+              "const hmac = CryptoJS.HmacSHA256(jwtHeader + \".\" + jwtBody, pm.environment.get('API_KEY'));",
+              "",
+              "const hmacBase64 = CryptoJS.enc.Base64.stringify(hmac).replace(/\\+/g, '-').replace(/\\//g, '_').replace(/=+$/g, '');",
+              "",
+              "pm.request.headers.add({",
+              "    key: 'Authorization',",
+              "    value: 'Bearer ' + jwtHeader + \".\" + jwtBody + \".\" + hmacBase64",
+              "});",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "url": {
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "image"
+          ],
+          "query": [
+            {
+              "key": "width",
+              "value": "400"
+            },
+            {
+              "key": "height",
+              "value": "200"
+            },
+            {
+              "key": "type",
+              "value": "resize"
+            },
+            {
+              "key": "url",
+              "value": "https://lmg.jj20.com/up/allimg/1112/112GPR626/1Q12FR626-9-1200.jpg"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
