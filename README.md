@@ -106,7 +106,7 @@ const jwtBody = btoa(JSON.stringify(
     {
         app: 'image-functions',
         data: {
-            hosts: 'lmg.jj20.com'
+            host: 'lmg.jj20.com'
         },
         exp: Math.floor(Date.now() / 1000) + 7200
     }

@@ -5,7 +5,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"image-functions/src/consts"
 	"net/url"
-	"strings"
 )
 
 // ParseURL parse url and validate the host from the context
@@ -16,8 +15,9 @@ func ParseURL(rawURL string, ct *gin.Context) (*url.URL, error) {
 	}
 	jsonData := data.(map[string]interface{})
 	parsedURL, err := url.Parse(rawURL)
-	if err == nil && jsonData["hosts"] != nil && strings.Contains(jsonData["hosts"].(string), parsedURL.Host) {
+	if err == nil && jsonData["host"] != nil && jsonData["host"].(string) == parsedURL.Host {
+		parsedURL.Host = jsonData["host"].(string)
 		return parsedURL, nil
 	}
-	return parsedURL, errors.New("the url is invalid")
+	return nil, errors.New("the url is invalid")
 }
