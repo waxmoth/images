@@ -1,0 +1,22 @@
+## IDEs ###
+.DS_Store
+.idea
+.vscode
+
+## Packages ##
+.node/node_modules
+.node/.idea
+.env
+.serverless
+bin
+!bin/.gitignore
+data
+docker-compose.override.yml
+vendor
+
+## Others ##
+.docker
+.dockerignore
+.git
+.github
+.gitignore
