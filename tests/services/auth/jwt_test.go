@@ -25,7 +25,10 @@ func TestEncodeDecode(t *testing.T) {
 func BenchmarkEncodeData(b *testing.B) {
 	jwtService := auth.JWTService{Key: "Test_auth_key", Expires: 72}
 	for i := 0; i < b.N; i++ {
-		jwtService.Encode("Test_auth_data")
+		_, err := jwtService.Encode("Test_auth_data")
+		if err != nil {
+			return
+		}
 	}
 }
 
@@ -33,6 +36,9 @@ func BenchmarkDecodeData(b *testing.B) {
 	jwtService := auth.JWTService{Key: "Test_auth_key", Expires: 72}
 	token, _ := jwtService.Encode("Test_auth_data")
 	for i := 0; i < b.N; i++ {
-		jwtService.Decode(token)
+		_, err := jwtService.Decode(token)
+		if err != nil {
+			return
+		}
 	}
 }

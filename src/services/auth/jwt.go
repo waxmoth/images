@@ -35,8 +35,12 @@ func (jwtService *JWTService) Decode(tokenString string) (interface{}, error) {
 		return []byte(jwtService.Key), nil
 	})
 
+	if err != nil || !token.Valid {
+		return nil, err
+	}
+
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		if claims["exp"] == nil || claims["exp"].(float64) < float64(time.Now().Unix()) {
+		if exp, err := claims.GetExpirationTime(); err != nil || exp.Unix() < time.Now().Unix() {
 			return nil, fmt.Errorf("token expired")
 		}
 		return claims["data"], nil

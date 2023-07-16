@@ -32,12 +32,18 @@ func TestImageAPIReturnError(t *testing.T) {
 
 	setAuthHeader(req, "bad key")
 	resp, err = http.DefaultClient.Do(req)
+	if err != nil {
+		t.Fatalf("Expected no error on get response, got %v", err)
+	}
 	if resp.StatusCode != 401 {
 		t.Fatalf("Expected get status code 401 when set wrong screct key, got %v", resp.StatusCode)
 	}
 
 	setAuthHeader(req, os.Getenv("AUTH_KEY"))
 	resp, err = http.DefaultClient.Do(req)
+	if err != nil {
+		t.Fatalf("Expected no error on get response, got %v", err)
+	}
 	if resp.StatusCode != 400 {
 		t.Fatalf("Expected get status code 400, got %v", resp.StatusCode)
 	}

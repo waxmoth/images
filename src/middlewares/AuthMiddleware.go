@@ -2,8 +2,8 @@ package middlewares
 
 import (
 	"github.com/gin-gonic/gin"
+	"image-functions/src/consts"
 	"image-functions/src/services/auth"
-	"log"
 	"net/http"
 	"os"
 )
@@ -21,13 +21,13 @@ func AuthMiddleware() gin.HandlerFunc {
 		var authService auth.Auth = &auth.JWTService{
 			Key: os.Getenv("AUTH_KEY"),
 		}
-		_, err := authService.Decode(tokenString)
+		token, err := authService.Decode(tokenString)
 		if err != nil {
-			log.Println(err.Error())
 			ct.Data(http.StatusUnauthorized, "application/json", []byte("Unauthorized"))
 			ct.Abort()
 			return
 		}
+		ct.Set(consts.AuthorizedData, token)
 		ct.Next()
 	}
 }
