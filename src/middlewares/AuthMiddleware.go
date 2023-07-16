@@ -6,13 +6,14 @@ import (
 	"image-functions/src/services/auth"
 	"net/http"
 	"os"
+	"strings"
 )
 
 // AuthMiddleware Auth the HTTP header, return 401 error if unauthorized
 func AuthMiddleware() gin.HandlerFunc {
 	return func(ct *gin.Context) {
 		reqToken := ct.GetHeader("Authorization")
-		if reqToken == "" {
+		if reqToken == "" || !strings.Contains(reqToken, "Bearer ") {
 			ct.Data(http.StatusUnauthorized, "application/json", []byte("Unauthorized"))
 			ct.Abort()
 			return
