@@ -40,11 +40,11 @@ func TestImageAPIReturnError(t *testing.T) {
 		t.Fatalf("Expected get status code 401 when set wrong screct key, got %v", resp.StatusCode)
 	}
 
-	if os.Getenv("AUTH_KEY") == "" {
-		os.Setenv("AUTH_KEY", "default_auth_key")
+	if os.Getenv("AUTH_KEY_TEST") == "" {
+		os.Setenv("AUTH_KEY_TEST", "default_auth_key")
 	}
 
-	setAuthHeader(req, os.Getenv("AUTH_KEY"))
+	setAuthHeader(req, os.Getenv("AUTH_KEY_TEST"))
 	resp, err = http.DefaultClient.Do(req)
 	if err != nil {
 		t.Fatalf("Expected no error on get response, got %v", err)
