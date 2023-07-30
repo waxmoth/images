@@ -23,6 +23,7 @@ func Routers() *gin.Engine {
 	)
 
 	r.GET("/image", images.GetImage)
+	r.POST("/image", images.UploadImage)
 
 	return r
 }

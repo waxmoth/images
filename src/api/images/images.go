@@ -5,6 +5,7 @@ import (
 	"image-functions/src/api"
 	"image-functions/src/consts"
 	"image-functions/src/models/requests"
+	"image-functions/src/models/responses"
 	"image-functions/src/utils"
 	"log"
 	"net/http"
@@ -64,4 +65,43 @@ func GetImage(ct *gin.Context) {
 	ct.Header(consts.HeaderFileName, fileName)
 
 	api.ReturnFile(http.StatusOK, contextType, buffer.Bytes(), ct)
+}
+
+// UploadImage support upload image to s3
+func UploadImage(ct *gin.Context) {
+	var request requests.UploadImage
+	err := ct.ShouldBind(&request)
+	if err != nil {
+		api.ReturnError(http.StatusBadRequest, err.Error(), ct)
+		return
+	}
+	file, err := request.File.Open()
+	if err != nil {
+		api.ReturnError(http.StatusBadRequest, "Cannot open the file", ct)
+		return
+	}
+	defer file.Close()
+	img, format, err := utils.DecodeImage(file)
+	if err != nil {
+		log.Printf("Failed decode image|%s|Error:%s", format, err.Error())
+		api.ReturnError(http.StatusBadRequest, "The image format not support yet", ct)
+		return
+	}
+	buffer, err := utils.ImageToBuffer(img, format)
+	if err != nil {
+		log.Printf("Failed to encode image|Error:%s", err.Error())
+		api.ReturnError(http.StatusInternalServerError, "Unable to encode image", ct)
+		return
+	}
+
+	fileName := request.Name
+	if fileName == "" {
+		contextType := http.DetectContentType(buffer.Bytes())
+		fileName = utils.GetOrCreateFileName(request.Name, contextType)
+	}
+
+	ct.Header(consts.HeaderFileName, fileName)
+	ct.Set(consts.FileData, buffer.Bytes())
+
+	api.ReturnSuccess(http.StatusOK, responses.UploadImage{Name: fileName}, "Success", ct)
 }

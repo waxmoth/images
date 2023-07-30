@@ -2,7 +2,7 @@
 
 build:
 	@echo "Building lambda package ..."
-	go build -ldflags="-s -w" -o bin/main ./src/lambda/main.go
+	export GIN_MODE=release && go build -ldflags="-s -w" -o bin/main ./src/lambda/main.go
 
 clean:
 	@echo "Cleaning package ..."
@@ -22,4 +22,4 @@ benchmark:
 
 deploy: clean build
 	@echo "Deploying application ..."
-	sls deploy --verbose
+	.node/node_modules/.bin/sls deploy --verbose

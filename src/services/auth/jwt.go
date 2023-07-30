@@ -29,9 +29,6 @@ func (jwtService *JWTService) Encode(obj interface{}) (string, error) {
 // Decode data and validate it from the secret key
 func (jwtService *JWTService) Decode(tokenString string) (interface{}, error) {
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
-		}
 		return []byte(jwtService.Key), nil
 	})
 

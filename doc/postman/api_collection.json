@@ -38,6 +38,10 @@
               "    key: 'Authorization',",
               "    value: 'Bearer ' + jwtHeader + \".\" + jwtBody + \".\" + hmacBase64",
               "});",
+              "pm.request.headers.add({",
+              "  key: 'Auth-User',",
+              ",  value: pm.environment.get('AUTH_USER')",
+              ",});",
               ""
             ],
             "type": "text/javascript"

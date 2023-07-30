@@ -119,4 +119,9 @@ pm.request.headers.add({
     key: 'Authorization',
     value: 'Bearer ' + jwtHeader + '.' + jwtBody + '.' + hmacBase64
 });
+
+pm.request.headers.add({
+    key: 'Auth-User',
+    value: pm.environment.get('AUTH_USER')
+});
 ```
