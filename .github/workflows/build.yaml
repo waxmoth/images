@@ -1,5 +1,8 @@
 name: Image-Service-Build
 
+env:
+  AUTH_KEY_TEST: test_auth_key
+
 on: [push]
 
 jobs:
