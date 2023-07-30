@@ -20,7 +20,7 @@ benchmark:
 
 deploy: test clean build
 	@echo "Deploying application ..."
-	sls deploy --verbose
+	cd .. && .node/node_modules/.bin/sls deploy --verbose
 
 ## Makes for development
 build-dev: stop-dev clean

@@ -63,8 +63,15 @@ func StorageMiddleware() gin.HandlerFunc {
 
 		// Note: Save the file into storage service
 		fileName = ct.Writer.Header().Get(consts.HeaderFileName)
-		if fileName != "" && ct.Writer.Status() < 300 && storageWriter.body != nil {
-			defer storageService.UploadFile(storageWriter.body.Bytes(), fileName)
+		if fileName != "" && ct.Writer.Status() < 300 {
+			if fileData, exists := ct.Get(consts.FileData); exists && fileData != nil {
+				defer storageService.UploadFile(fileData.([]byte), fileName)
+				return
+			}
+			if storageWriter.body.Len() > 10 {
+				defer storageService.UploadFile(storageWriter.body.Bytes(), fileName)
+				return
+			}
 		}
 	}
 }

@@ -4,3 +4,6 @@ getImage:
     - httpApi:
         method: GET
         path: /image
+    - httpApi:
+        method: POST
+        path: /image
