@@ -2,6 +2,7 @@ package tests
 
 import (
 	"fmt"
+	"image-functions/src/consts"
 	"image-functions/src/routers"
 	"image-functions/src/services/auth"
 	"net/http"
@@ -75,6 +76,7 @@ func BenchmarkImageAPI(b *testing.B) {
 }
 
 func setAuthHeader(req *http.Request, key string) {
+	req.Header.Set(consts.AuthUser, "test")
 	if key != "" {
 		authService := auth.JWTService{Key: key, Expires: 72}
 		token, err := authService.Encode("a mocked data")
