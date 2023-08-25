@@ -1,5 +1,9 @@
 # Go images
-![Build Status](https://github.com/waxmoth/images/actions/workflows/build/badge.svg?branch=master)
+
+[![Build Status](https://github.com/waxmoth/images/workflows/Build/badge.svg)](https://github.com/waxmoth/images/)
+
+[![CodeQL Status](https://github.com/waxmoth/images/workflows/CodeQL/badge.svg)](https://github.com/waxmoth/images/)
+
 The image service written by golang. 
 Use to handle the images from cloud storage. Display the different size image based on the request parameters.
 
