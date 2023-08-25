@@ -1,7 +1,6 @@
 # Go images
 
 [![Build Status](https://github.com/waxmoth/images/workflows/Build/badge.svg)](https://github.com/waxmoth/images/)
-
 [![CodeQL Status](https://github.com/waxmoth/images/workflows/CodeQL/badge.svg)](https://github.com/waxmoth/images/)
 
 The image service written by golang. 
