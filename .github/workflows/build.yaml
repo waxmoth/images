@@ -1,4 +1,4 @@
-name: Image-Service-Build
+name: "Build"
 
 on: [push]
 
