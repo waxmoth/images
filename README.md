@@ -1,5 +1,7 @@
 # Go images
-The image service written by golang.
+![Build Status](https://github.com/waxmoth/images/actions/workflows/build/badge.svg?branch=master)
+The image service written by golang. 
+Use to handle the images from cloud storage. Display the different size image based on the request parameters.
 
 ## Features
 1. Download image from url;
@@ -7,10 +9,9 @@ The image service written by golang.
 3. Compress the image size;
 4. Upload to the cloud service;
 
-## Dependencies
+## Dependencies for development
 1. [Docker](https://www.docker.com/)
 2. [Serverless](https://www.serverless.com/)
-
 
 ## Development
 * Copy and set environment values
