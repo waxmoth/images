@@ -5,22 +5,23 @@
   "scripts": {
     "dev": "make run-dev",
     "start": ".node/node_modules/.bin/serverless offline start --useDocker --stage=dev",
-    "watch": "npm-watch"
+    "watch": "nodemon --exec \"make run-dev\""
   },
   "devDependencies": {
-    "npm-watch": "^0.11.0",
+    "nodemon": "^3.0.1",
     "serverless": "^3.34.0",
     "serverless-offline": "^13.1.2"
   },
-  "watch": {
-    "dev": {
-      "patterns": [
-        "../src"
-      ],
-      "extensions": "go,yml",
-      "quiet": false,
-      "silent": true,
-      "delay": 1000
-    }
+  "nodemonConfig": {
+    "exec": "make run-dev",
+    "watch": [
+      "../src"
+    ],
+    "ignore": [
+      "node_modules",
+      ".git"
+    ],
+    "ext": "go,yml",
+    "delay": 2000
   }
 }
