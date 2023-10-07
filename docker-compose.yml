@@ -15,21 +15,16 @@ services:
     command: bash -c "npm --prefix /go/src/image-functions/.node run watch"
 
   aws:
-    image: localstack/localstack:0.12.20 # The storage persistence only supports community services below 0.13.0
+    image: luofuxiang/local-s3:native-1.12.2
     environment:
-      # For more services: https://github.com/localstack/localstack/blob/master/doc/feature_coverage.md
-      #                    http://localhost:4566/health
-      - SERVICES=s3
-      - DATA_DIR=/tmp/localstack/data
-      - DEBUG=1
+      - LOCAL_S3_LOGGING_LEVEL=WARN
+      - MODE=PERSISTENCE
     env_file:
       - .env
     ports:
-      - "4566:4566"
-      - "4571:4571"
-      - "5678:5678"
+      - "4566:80"
     volumes:
-      - localstack-data:/tmp/localstack
+      - localstack-data:/data
 
 volumes:
   localstack-data:

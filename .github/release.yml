@@ -17,6 +17,9 @@ changelog:
     - title: 'Documentations'
       labels:
         - documentation
+    - title: 'Security Fixes'
+      labels:
+        - security
     - title: 'Bug Fixes'
       labels:
         - bug

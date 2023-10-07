@@ -23,3 +23,8 @@ benchmark:
 deploy: clean build
 	@echo "Deploying application ..."
 	.node/node_modules/.bin/sls deploy --verbose
+
+upgrade: clean
+	@echo "Updating application ..."
+	go get -u ./... && go mod tidy && go mod vendor
+	make build && make test
