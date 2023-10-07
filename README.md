@@ -78,7 +78,7 @@ vim <GO_SDK_PATH>/src/runtime/internal/sys/zversion.go
 const TheVersion = `go1.17.*`
 ```
 
-## Local S3 service based on [LocalStack](https://localstack.cloud/)
+## Local S3 service based on [LocalS3](https://github.com/Robothy/local-s3)
 
 * Create and use local S3 bucket
 ```shell script
