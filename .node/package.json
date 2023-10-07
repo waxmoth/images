@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "make run-dev",
     "start": ".node/node_modules/.bin/serverless offline start --useDocker --stage=dev",
-    "watch": "nodemon --exec \"make run-dev\""
+    "watch": "nodemon"
   },
   "devDependencies": {
     "nodemon": "^3.0.1",
@@ -13,15 +13,15 @@
     "serverless-offline": "^13.1.2"
   },
   "nodemonConfig": {
+    "delay": 2000,
     "exec": "make run-dev",
-    "watch": [
-      "../src"
-    ],
+    "ext": "go,yml",
     "ignore": [
       "node_modules",
       ".git"
     ],
-    "ext": "go,yml",
-    "delay": 2000
+    "watch": [
+      "../src"
+    ]
   }
 }
