@@ -10,7 +10,7 @@
   "devDependencies": {
     "nodemon": "^3.0.1",
     "serverless": "^3.36.0",
-    "serverless-offline": "^13.2.0"
+    "serverless-offline": "^13.2.1"
   },
   "nodemonConfig": {
     "delay": 2000,
