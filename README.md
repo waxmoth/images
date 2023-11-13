@@ -39,7 +39,7 @@ docker-compose run --rm app bash -c "npm --prefix /go/src/image-functions/.node 
 
 * Install required Golang libraries
 ```shell script
-docker-compose run --rm app bash -c "go mod download && go mod vendor"
+docker-compose run --rm app make install
 ```
 
 * Run the binary file build and watch
