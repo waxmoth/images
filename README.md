@@ -24,42 +24,42 @@ cp .env.dist .env
 
 * Build image in your local
 ```shell script
-docker-compose build
+docker compose build
 ```
 
 * Install required NodeJS libraries
 ```shell script
-docker-compose run --rm app bash -c "npm --prefix /go/src/image-functions/.node install"
+docker compose run --rm app bash -c "npm --prefix /go/src/image-functions/.node install"
 ```
 
 * If you want to install some NodeJS packages
 ```shell script
-docker-compose run --rm app bash -c "npm --prefix /go/src/image-functions/.node install serverless --save-dev"
+docker compose run --rm app bash -c "npm --prefix /go/src/image-functions/.node install serverless --save-dev"
 ```
 
 * Install required Golang libraries
 ```shell script
-docker-compose run --rm app make install
+docker compose run --rm app make install
 ```
 
 * Run the binary file build and watch
 ```shell script
-docker-compose up -d
+docker compose up -d
 ```
 
 * Build the production file
 ```shell script
-docker-compose run --rm app make build
+docker compose run --rm app make build
 ```
 
 * Run the unit test
 ```shell script
-docker-compose run --rm app make test
+docker compose run --rm app make test
 ```
 
 * Run the benchmark
 ```shell script
-docker-compose run --rm app make benchmark
+docker compose run --rm app make benchmark
 ```
 
 * Start the serverless offline, there no runner for runtime go1.x in the serverless offline, so use the docker to run it
