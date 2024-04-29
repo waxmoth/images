@@ -14,7 +14,7 @@ jobs:
       - name: Install dependencies
         run: make install
       - name: Lint check
-        uses: golangci/golangci-lint-action@v4
+        uses: golangci/golangci-lint-action@v5
       - name: Build
         run: make build
       - name: Testing
