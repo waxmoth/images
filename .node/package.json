@@ -8,9 +8,9 @@
     "watch": "nodemon"
   },
   "devDependencies": {
-    "nodemon": "^3.1.0",
+    "nodemon": "^3.1.4",
     "serverless": "^3.38.0",
-    "serverless-offline": "^13.3.2"
+    "serverless-offline": "^13.6.0"
   },
   "nodemonConfig": {
     "delay": 2000,
