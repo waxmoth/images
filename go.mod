@@ -7,7 +7,7 @@ require (
 	github.com/aws/aws-sdk-go v1.53.15
 	github.com/awslabs/aws-lambda-go-api-proxy v0.16.1
 	github.com/gin-gonic/gin v1.9.1
-	github.com/golang-jwt/jwt/v5 v5.0.0
+	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/google/uuid v1.6.0
 	golang.org/x/image v0.18.0
 )
