@@ -2,6 +2,10 @@
 
 build:
 	@echo "Building lambda package ..."
+	export GIN_MODE=release && go build -ldflags="-s -w" -o bin/main ./src/main.go
+
+build-lambda:
+	@echo "Building lambda package ..."
 	export GIN_MODE=release && go build -ldflags="-s -w" -o bin/main ./src/lambda/main.go
 
 clean:
