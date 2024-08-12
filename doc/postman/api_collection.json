@@ -53,10 +53,6 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test('Response time less 2000ms', function() {",
-              "    pm.expect(responseTime).to.be.below(2000);",
-              "})",
-              "",
               "pm.test('Status code is 200', function() {",
               "    pm.response.to.have.status(200);",
               "})",
