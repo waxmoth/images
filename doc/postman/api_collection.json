@@ -24,7 +24,7 @@
               "    {",
               "        app: 'image-functions',",
               "        data: {",
-              "            host: 'www.yiige.com'",
+              "            host: 'www.wikipedia.org'",
               "        },",
               "        exp: Math.floor(Date.now() / 1000) + 7200",
               "    }",
@@ -93,7 +93,7 @@
             },
             {
               "key": "url",
-              "value": "https://www.yiige.com/img/logo.png"
+              "value": "https://www.wikipedia.org/portal/wikipedia.org/assets/img/Wikipedia-logo-v2.png"
             }
           ]
         }
