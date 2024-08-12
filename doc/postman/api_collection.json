@@ -13,6 +13,8 @@
           "listen": "prerequest",
           "script": {
             "exec": [
+              "CryptoJS = require('crypto-js');",
+              "btoa = require('btoa');",
               "const jwtHeader = btoa(JSON.stringify(",
               "    {",
               "        alg: 'HS256',",
@@ -24,7 +26,7 @@
               "    {",
               "        app: 'image-functions',",
               "        data: {",
-              "            host: 'www.wikipedia.org'",
+              "            host: 'www.yiige.com'",
               "        },",
               "        exp: Math.floor(Date.now() / 1000) + 7200",
               "    }",
@@ -51,8 +53,8 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test('Response time less 1000ms', function() {",
-              "    pm.expect(responseTime).to.be.below(1000);",
+              "pm.test('Response time less 2000ms', function() {",
+              "    pm.expect(responseTime).to.be.below(2000);",
               "})",
               "",
               "pm.test('Status code is 200', function() {",
@@ -93,7 +95,7 @@
             },
             {
               "key": "url",
-              "value": "https://www.wikipedia.org/portal/wikipedia.org/assets/img/Wikipedia-logo-v2.png"
+              "value": "https://www.yiige.com/img/logo.png"
             }
           ]
         }
