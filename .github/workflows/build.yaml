@@ -21,6 +21,7 @@ jobs:
         run: make test
       - name: Testing by Postman CLI
         env:
+          GIN_MODE: release
           AUTH_KEY_TEST: 'a_test_auth_key'
         run: |
           bin/main &
