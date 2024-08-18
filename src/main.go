@@ -7,8 +7,8 @@ import (
 func main() {
 	r := routers.Routers()
 	r.ForwardedByClientIP = true
-	r.SetTrustedProxies([]string{"127.0.0.1"})
-	err := r.Run(":8080")
+	err := r.SetTrustedProxies([]string{"127.0.0.1"})
+	err = r.Run(":8080")
 	if err != nil {
 		panic(err)
 	}
