@@ -1,0 +1,231 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/api/image": {
+            "get": {
+                "description": "Fetch the image from url and return to client\nYou can resize the image by query `width` and `height`",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "image/jpeg"
+                ],
+                "tags": [
+                    "image"
+                ],
+                "summary": "Get image",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "example": 100,
+                        "name": "height",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "crop",
+                            "resize"
+                        ],
+                        "type": "string",
+                        "default": "crop",
+                        "example": "crop",
+                        "name": "type",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "https://example.com/image.png",
+                        "name": "url",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "example": 100,
+                        "name": "width",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "x",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "y",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The image file",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "File-Name": {
+                                "type": "string",
+                                "description": "The cached image file name"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Upload the image to service",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "image"
+                ],
+                "summary": "Upload image",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Upload image request payload",
+                        "name": "object",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requests.UploadImage"
+                        }
+                    },
+                    {
+                        "type": "file",
+                        "description": "The image file",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/api.SuccessResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/responses.UploadImage"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "api.Error": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "error": {
+                    "type": "string"
+                },
+                "processAt": {
+                    "type": "integer"
+                },
+                "processedId": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.SuccessResponse": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "meta": {
+                    "$ref": "#/definitions/api.meta"
+                }
+            }
+        },
+        "api.meta": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "processAt": {
+                    "type": "integer"
+                },
+                "processedId": {
+                    "type": "string"
+                }
+            }
+        },
+        "requests.UploadImage": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "example": "image.png"
+                }
+            }
+        },
+        "responses.UploadImage": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "example": "image.png"
+                }
+            }
+        }
+    }
+}

@@ -15,7 +15,7 @@ func TestImageAPIReturnError(t *testing.T) {
 	ts := httptest.NewServer(routers.Routers())
 	defer ts.Close()
 
-	req, err := http.NewRequest("GET", fmt.Sprintf("%s/image", ts.URL), nil)
+	req, err := http.NewRequest("GET", fmt.Sprintf("%s/api/image", ts.URL), nil)
 
 	if err != nil {
 		t.Fatalf("Expected no error on set request, got %v", err)
