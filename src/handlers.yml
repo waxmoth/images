@@ -3,7 +3,7 @@ getImage:
   events:
     - httpApi:
         method: GET
-        path: /image
+        path: /api/image
     - httpApi:
         method: POST
-        path: /image
+        path: /api/image

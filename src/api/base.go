@@ -8,6 +8,17 @@ import (
 	"image-functions/src/utils"
 )
 
+//	@title			Image Functions
+//	@version		1.0
+//	@description	GoLang Image Functions
+
+//	@contact.name	waxmoth
+//	@contact.email	waxmoth@qq.com
+
+//	@license.name	Apache 2.0
+//	@license.url	http://www.apache.org/licenses/LICENSE-2.0.html
+//	@BasePath		/api
+
 type meta struct {
 	Code        int    `json:"code"`
 	Message     string `json:"message"`
@@ -15,14 +26,21 @@ type meta struct {
 	ProcessedID string `json:"processedId"`
 }
 
-type successResponse struct {
+type Error struct {
+	Code        int    `json:"code"`
+	Error       string `json:"error"`
+	ProcessAt   int64  `json:"processAt"`
+	ProcessedID string `json:"processedId"`
+}
+
+type SuccessResponse struct {
 	Meta meta        `json:"meta"`
 	Data interface{} `json:"data"`
 }
 
 // ReturnSuccess return the success response body to client
 func ReturnSuccess(code int, data interface{}, msg string, c *gin.Context) {
-	c.JSON(code, successResponse{
+	c.JSON(code, SuccessResponse{
 		Meta: meta{
 			code,
 			msg,
@@ -35,7 +53,7 @@ func ReturnSuccess(code int, data interface{}, msg string, c *gin.Context) {
 
 // ReturnError return error information to client
 func ReturnError(code int, msg string, c *gin.Context) {
-	c.JSON(code, meta{
+	c.JSON(code, Error{
 		code,
 		msg,
 		utils.NowMillis(),

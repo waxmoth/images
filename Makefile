@@ -2,6 +2,10 @@
 
 build:
 	@echo "Building lambda package ..."
+	export GIN_MODE=release && go build -ldflags="-s -w" -o bin/main ./src/main.go
+
+build-lambda:
+	@echo "Building lambda package ..."
 	export GIN_MODE=release && go build -ldflags="-s -w" -o bin/main ./src/lambda/main.go
 
 clean:
@@ -28,3 +32,17 @@ upgrade: clean
 	@echo "Updating application ..."
 	go get -u ./... && go mod tidy && go mod vendor
 	make build && make test
+
+install-swag:
+ifeq (, $(shell which swag))
+	@echo "Installing the Swagger ..."
+	go install github.com/swaggo/swag/cmd/swag@latest;
+endif
+
+swag-fmt: install-swag
+	@echo "Formatting the Swagger doc annotation ..."
+	swag fmt
+
+swag-init: install-swag
+	@echo "Generating API doc ..."
+	swag init -d src -g main.go -o doc/api/

@@ -19,3 +19,11 @@ jobs:
         run: make build
       - name: Testing
         run: make test
+      - name: Testing by Postman CLI
+        env:
+          GIN_MODE: release
+          AUTH_KEY_TEST: 'a_test_auth_key'
+        run: |
+          bin/main &
+          curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
+          postman collection run doc/postman/api_collection.json --env-var "host=http://localhost:8080" --env-var "AUTH_KEY=a_test_auth_key" --env-var "AUTH_USER=test"

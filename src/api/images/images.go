@@ -12,6 +12,21 @@ import (
 )
 
 // GetImage support fetch image from url and return to client
+//
+//	@Router			/api/image [get]
+//	@Summary		Get image
+//	@Schemes		http https
+//	@Description	Fetch the image from url and return to client
+//	@Description	You can resize the image by query `width` and `height`
+//	@Tags			image
+//	@Accept			application/json
+//	@Produce		jpeg
+//	@Param			Authorization	header		string				true	"Bearer token"
+//	@Param			object			query		requests.GetImage	false	"Get image request payload"
+//	@Success		200				{string}	image				"The image file"
+//	@Header			200				{string}	File-Name			"The cached image file name"
+//	@Failure		400				object		api.Error
+//	@Failure		401				{string}	string	"Unauthorized"
 func GetImage(ct *gin.Context) {
 	var request requests.GetImage
 	err := ct.ShouldBind(&request)
@@ -68,6 +83,20 @@ func GetImage(ct *gin.Context) {
 }
 
 // UploadImage support upload image to s3
+//
+//	@Router			/api/image [post]
+//	@Summary		Upload image
+//	@Schemes		http https
+//	@Description	Upload the image to service
+//	@Tags			image
+//	@Accept			multipart/form-data
+//	@Produce		json
+//	@Param			Authorization	header		string					true	"Bearer token"
+//	@Param			object			body		requests.UploadImage	true	"Upload image request payload"
+//	@Param			file			formData	file					true	"The image file"
+//	@Success		200				object		api.SuccessResponse{data=responses.UploadImage}
+//	@Failure		400				object		api.Error
+//	@Failure		401				{string}	string	"Unauthorized"
 func UploadImage(ct *gin.Context) {
 	var request requests.UploadImage
 	err := ct.ShouldBind(&request)

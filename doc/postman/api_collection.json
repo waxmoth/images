@@ -13,36 +13,55 @@
           "listen": "prerequest",
           "script": {
             "exec": [
+              "CryptoJS = require('crypto-js');",
+              "btoa = require('btoa');",
               "const jwtHeader = btoa(JSON.stringify(",
               "    {",
-              "        \"alg\": \"HS256\",",
-              "        \"typ\": \"JWT\"",
+              "        alg: 'HS256',",
+              "        typ: 'JWT'",
               "    }",
               ")).replace(/\\+/g, '-').replace(/\\//g, '_').replace(/=+$/g, '');",
               "",
               "const jwtBody = btoa(JSON.stringify(",
               "    {",
-              "        \"app\": \"image-functions\",",
-              "        \"data\": {",
-              "            \"host\": \"lmg.jj20.com\"",
+              "        app: 'image-functions',",
+              "        data: {",
+              "            host: 'www.yiige.com'",
               "        },",
-              "        \"exp\": Math.floor(Date.now() / 1000) + 7200",
+              "        exp: Math.floor(Date.now() / 1000) + 7200",
               "    }",
               ")).replace(/\\+/g, '-').replace(/\\//g, '_').replace(/=+$/g, '');",
               "",
-              "const hmac = CryptoJS.HmacSHA256(jwtHeader + \".\" + jwtBody, pm.environment.get('API_KEY'));",
-              "",
+              "const hmac = CryptoJS.HmacSHA256(jwtHeader + '.' + jwtBody, pm.environment.get('AUTH_KEY'));",
               "const hmacBase64 = CryptoJS.enc.Base64.stringify(hmac).replace(/\\+/g, '-').replace(/\\//g, '_').replace(/=+$/g, '');",
               "",
               "pm.request.headers.add({",
               "    key: 'Authorization',",
-              "    value: 'Bearer ' + jwtHeader + \".\" + jwtBody + \".\" + hmacBase64",
+              "    value: 'Bearer ' + jwtHeader + '.' + jwtBody + '.' + hmacBase64",
               "});",
+              "",
               "pm.request.headers.add({",
-              "  key: 'Auth-User',",
-              ",  value: pm.environment.get('AUTH_USER')",
-              ",});",
+              "    key: 'Auth-User',",
+              "    value: pm.environment.get('AUTH_USER')",
+              "});",
               ""
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function() {",
+              "    pm.response.to.have.status(200);",
+              "})",
+              "",
+              "pm.test('Response has correct headers', function(){",
+              "    pm.response.to.have.header('Content-Type');",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.contains('image');",
+              "    pm.response.to.have.header('File-Name');",
+              "})"
             ],
             "type": "text/javascript"
           }
@@ -55,7 +74,7 @@
             "{{host}}"
           ],
           "path": [
-            "image"
+            "api/image"
           ],
           "query": [
             {
@@ -72,7 +91,7 @@
             },
             {
               "key": "url",
-              "value": "https://lmg.jj20.com/up/allimg/1112/112GPR626/1Q12FR626-9-1200.jpg"
+              "value": "https://www.yiige.com/img/logo.png"
             }
           ]
         }

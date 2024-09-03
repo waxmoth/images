@@ -1,0 +1,151 @@
+definitions:
+  api.Error:
+    properties:
+      code:
+        type: integer
+      error:
+        type: string
+      processAt:
+        type: integer
+      processedId:
+        type: string
+    type: object
+  api.SuccessResponse:
+    properties:
+      data: {}
+      meta:
+        $ref: '#/definitions/api.meta'
+    type: object
+  api.meta:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+      processAt:
+        type: integer
+      processedId:
+        type: string
+    type: object
+  requests.UploadImage:
+    properties:
+      name:
+        example: image.png
+        type: string
+    type: object
+  responses.UploadImage:
+    properties:
+      name:
+        example: image.png
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/image:
+    get:
+      consumes:
+      - application/json
+      description: |-
+        Fetch the image from url and return to client
+        You can resize the image by query `width` and `height`
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - example: 100
+        in: query
+        name: height
+        type: integer
+      - default: crop
+        enum:
+        - crop
+        - resize
+        example: crop
+        in: query
+        name: type
+        type: string
+      - example: https://example.com/image.png
+        in: query
+        name: url
+        required: true
+        type: string
+      - example: 100
+        in: query
+        name: width
+        type: integer
+      - in: query
+        name: x
+        type: integer
+      - in: query
+        name: "y"
+        type: integer
+      produces:
+      - image/jpeg
+      responses:
+        "200":
+          description: The image file
+          headers:
+            File-Name:
+              description: The cached image file name
+              type: string
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+      summary: Get image
+      tags:
+      - image
+    post:
+      consumes:
+      - multipart/form-data
+      description: Upload the image to service
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Upload image request payload
+        in: body
+        name: object
+        required: true
+        schema:
+          $ref: '#/definitions/requests.UploadImage'
+      - description: The image file
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/api.SuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/responses.UploadImage'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+      summary: Upload image
+      tags:
+      - image
+swagger: "2.0"
