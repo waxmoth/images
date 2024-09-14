@@ -6,6 +6,7 @@ services:
     volumes:
       - .:/go/src/image-functions
       - ~/.aws:/root/.aws # Use to deploy the lambda function by serverless
+      - ./data/.npm:/.npm  # NPM cache
     user: "1000:1000"
     ports:
       - "3001:8080"
@@ -25,7 +26,16 @@ services:
     volumes:
       - localstack-data:/data
 
+  gcs:
+    image: fsouza/fake-gcs-server:latest
+    ports:
+      - "4443:4443"
+    command: -scheme http
+    volumes:
+      - local-gcs-data:/storage
+
 volumes:
   localstack-data:
     name: localstack_data
     external: true
+  local-gcs-data:

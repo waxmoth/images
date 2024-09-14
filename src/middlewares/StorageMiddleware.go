@@ -23,16 +23,9 @@ func (sw storageWriter) Write(buf []byte) (int, error) {
 // StorageMiddleware handle return or upload file to the storage service
 func StorageMiddleware() gin.HandlerFunc {
 	return func(ct *gin.Context) {
-		if os.Getenv("AWS_ACCESS_KEY_ID") == "" || os.Getenv("AWS_SECRET_ACCESS_KEY") == "" {
+		var storageService = getStorageService(os.Getenv("STORAGE_TYPE"))
+		if storageService == nil {
 			return
-		}
-		var storageService storage.Storage = &storage.S3Service{
-			AccessKeyID:     os.Getenv("AWS_ACCESS_KEY_ID"),
-			SecretAccessKey: os.Getenv("AWS_SECRET_ACCESS_KEY"),
-			Region:          os.Getenv("AWS_DEFAULT_REGION"),
-			Bucket:          os.Getenv("IMAGE_STORAGE_BUCKET"),
-			Endpoint:        os.Getenv("AWS_ENDPOINT"),
-			ForcePathStyle:  os.Getenv("S3_FORCE_PATH_STYLE") == "true",
 		}
 		err := storageService.Initial()
 		if err != nil {
@@ -45,7 +38,7 @@ func StorageMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		// Note: Get the file from the storage and return the file directly if it is exists
+		// Note: Get the file from the storage and return the file directly if it is existing
 		fileName, hasFileNameQuery := ct.GetQuery(consts.HeaderFileName)
 		if hasFileNameQuery {
 			ct.Header(consts.HeaderFileName, fileName)
@@ -73,5 +66,31 @@ func StorageMiddleware() gin.HandlerFunc {
 				return
 			}
 		}
+	}
+}
+
+func getStorageService(storageType string) storage.Storage {
+	switch storageType {
+	case "local":
+		if os.Getenv("IMAGE_STORAGE_BUCKET") == "" {
+			return nil
+		}
+		return &storage.LocalService{
+			LocalFolder: os.Getenv("IMAGE_STORAGE_BUCKET"),
+		}
+	case "s3":
+		if os.Getenv("AWS_ACCESS_KEY_ID") == "" || os.Getenv("AWS_SECRET_ACCESS_KEY") == "" {
+			return nil
+		}
+		return &storage.S3Service{
+			AccessKeyID:     os.Getenv("AWS_ACCESS_KEY_ID"),
+			SecretAccessKey: os.Getenv("AWS_SECRET_ACCESS_KEY"),
+			Region:          os.Getenv("AWS_DEFAULT_REGION"),
+			Bucket:          os.Getenv("IMAGE_STORAGE_BUCKET"),
+			Endpoint:        os.Getenv("AWS_ENDPOINT"),
+			ForcePathStyle:  os.Getenv("S3_FORCE_PATH_STYLE") == "true",
+		}
+	default:
+		return nil
 	}
 }

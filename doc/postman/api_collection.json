@@ -90,6 +90,10 @@
               "value": "resize"
             },
             {
+              "key": "File-Name",
+              "value": "fetched_logo.png"
+            },
+            {
               "key": "url",
               "value": "https://www.yiige.com/img/logo.png"
             }
