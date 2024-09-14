@@ -149,8 +149,8 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test('Response time less 50ms, if get data from cache', function() {",
-              "    pm.expect(responseTime).to.be.below(50);",
+              "pm.test('Response time less 10 ms, if get data from cache', function() {",
+              "    pm.expect(responseTime).to.be.below(10);",
               "})",
               "",
               "pm.test('Status code is 200', function() {",

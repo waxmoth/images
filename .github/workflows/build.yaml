@@ -24,7 +24,7 @@ jobs:
           GIN_MODE: release
           AUTH_KEY_TEST: 'a_test_auth_key'
           STORAGE_TYPE: 'local'
-          IMAGE_STORAGE_BUCKET: '/tmp/app-images'
+          IMAGE_STORAGE_BUCKET: 'app-images'
         run: |
           bin/main &
           curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
