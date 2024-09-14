@@ -8,15 +8,15 @@ import (
 	"strings"
 )
 
-const safeDir = "/tmp/"
-
 // LocalService handle files in local storage
 type LocalService struct {
 	LocalFolder string
+	safeDir     string
 }
 
 // Initial create local storage service from the configures
 func (storageServ *LocalService) Initial() error {
+	storageServ.safeDir = os.TempDir() + "/"
 	if !storageServ.BucketExists(storageServ.LocalFolder) {
 		log.Printf("LocalService|Initial|No bucket: %s", storageServ.LocalFolder)
 		resolvedFolder, err := storageServ.resolveFileName(storageServ.LocalFolder)
@@ -82,8 +82,8 @@ func (storageServ *LocalService) FileExists(fileName string) bool {
 
 // resolveFileName resolve the file name, in case the path injection issue
 func (storageServ *LocalService) resolveFileName(fileName string) (string, error) {
-	resolvedFileName, err := filepath.Abs(filepath.Join(safeDir, fileName))
-	if err != nil || !strings.HasPrefix(resolvedFileName, safeDir) {
+	resolvedFileName, err := filepath.Abs(filepath.Join(storageServ.safeDir, fileName))
+	if err != nil || !strings.HasPrefix(resolvedFileName, storageServ.safeDir) {
 		return "", errors.New("invalid file name")
 	}
 
