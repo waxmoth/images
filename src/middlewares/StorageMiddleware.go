@@ -29,7 +29,7 @@ func StorageMiddleware() gin.HandlerFunc {
 		}
 		err := storageService.Initial()
 		if err != nil {
-			log.Printf("StorageMiddleware|Failed to create storageService|Error%s", err)
+			log.Printf("StorageMiddleware|Failed to create storageService|Error: %s", err)
 			return
 		}
 
@@ -70,11 +70,11 @@ func StorageMiddleware() gin.HandlerFunc {
 }
 
 func getStorageService(storageType string) storage.Storage {
+	if os.Getenv("IMAGE_STORAGE_BUCKET") == "" {
+		return nil
+	}
 	switch storageType {
 	case "local":
-		if os.Getenv("IMAGE_STORAGE_BUCKET") == "" {
-			return nil
-		}
 		return &storage.LocalService{
 			LocalFolder: os.Getenv("IMAGE_STORAGE_BUCKET"),
 		}
@@ -89,6 +89,15 @@ func getStorageService(storageType string) storage.Storage {
 			Bucket:          os.Getenv("IMAGE_STORAGE_BUCKET"),
 			Endpoint:        os.Getenv("AWS_ENDPOINT"),
 			ForcePathStyle:  os.Getenv("S3_FORCE_PATH_STYLE") == "true",
+		}
+	case "gcs":
+		if os.Getenv("GOOGLE_CLOUD_CREDENTIALS") == "" {
+			return nil
+		}
+		return &storage.GCSService{
+			Credits:  os.Getenv("GOOGLE_CLOUD_CREDENTIALS"),
+			Bucket:   os.Getenv("IMAGE_STORAGE_BUCKET"),
+			Endpoint: os.Getenv("GOOGLE_STORAGE_EMULATOR_HOST"),
 		}
 	default:
 		return nil

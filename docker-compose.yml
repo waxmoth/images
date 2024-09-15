@@ -12,6 +12,8 @@ services:
       - "3001:8080"
     env_file: 
       - .env
+    #extra_hosts:
+    #  - "host.docker.internal:host-gateway"  # Set HTTP Proxy, e.g. HTTP_PROXY=http://host.docker.internal:1080
     command: bash -c "npm --prefix /go/src/image-functions/.node run watch"
 
   aws:
@@ -30,9 +32,9 @@ services:
     image: fsouza/fake-gcs-server:latest
     ports:
       - "4443:4443"
-    command: -scheme http
+    command: -scheme http -public-host localhost
     volumes:
-      - local-gcs-data:/storage
+      - local-gcs-data:/data
 
 volumes:
   localstack-data:
