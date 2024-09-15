@@ -42,10 +42,10 @@ func (storageServ *GCSService) Initial() error {
 // GetFile get file buffer from Google Cloud Storage, return error if cannot get it
 func (storageServ *GCSService) GetFile(fileName string) ([]byte, error) {
 	res, err := storageServ.gcsClient.Bucket(storageServ.Bucket).Object(fileName).NewReader(storageServ.ctx)
-	defer res.Close()
 	if err != nil {
 		return nil, err
 	}
+	defer res.Close()
 	return io.ReadAll(res)
 }
 
