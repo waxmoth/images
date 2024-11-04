@@ -12,7 +12,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/swaggo/files v1.0.1
 	github.com/swaggo/gin-swagger v1.6.0
-	github.com/swaggo/swag v1.16.3
+	github.com/swaggo/swag v1.16.4
 	golang.org/x/image v0.21.0
 	google.golang.org/api v0.187.0
 )
