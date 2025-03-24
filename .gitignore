@@ -10,3 +10,6 @@ vendor
 .serverless
 data
 docker-compose.override.yml
+
+## Local storages ##
+.node/app-images
