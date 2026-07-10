@@ -28,6 +28,18 @@ func (storageServ *GCSService) Initial() error {
 		if err != nil {
 			return err
 		}
+		creds := &google.Credentials{
+			ProjectID:   "",
+			TokenSource: nil,
+			JSON:        nil,
+			UniverseDomainProvider: func() (string, error) {
+				return "http://gcs/", nil
+			},
+		}
+		opts = append(
+			opts,
+			option.WithCredentials(creds),
+		)
 	}
 
 	storageServ.ctx = context.Background()
