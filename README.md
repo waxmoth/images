@@ -18,52 +18,52 @@ Use to handle the images from cloud storage. Display the different size image ba
 
 ## Development
 * Copy and set environment values
-```shell script
+```shell
 cp .env.dist .env
 ```
 
 * Build image in your local
-```shell script
+```shell
 docker compose build
 ```
 
 * Install required NodeJS libraries
-```shell script
+```shell
 docker compose run --rm app bash -c "npm --prefix /go/src/image-functions/.node install"
 ```
 
 * If you want to install some NodeJS packages
-```shell script
+```shell
 docker compose run --rm app bash -c "npm --prefix /go/src/image-functions/.node install serverless --save-dev"
 ```
 
 * Install required Golang libraries
-```shell script
+```shell
 docker compose run --rm app make install
 ```
 
 * Run the binary file build and watch
-```shell script
+```shell
 docker compose up -d
 ```
 
 * Build the production file
-```shell script
+```shell
 docker compose run --rm app make build
 ```
 
 * Run the unit test
-```shell script
+```shell
 docker compose run --rm app make test
 ```
 
 * Run the benchmark
-```shell script
+```shell
 docker compose run --rm app make benchmark
 ```
 
 * Start the serverless offline, there no runner for runtime go1.x in the serverless offline, so use the docker to run it
-```shell script
+```shell
 .node/node_modules/.bin/serverless offline start --useDocker --stage=dev
 ```
 
@@ -93,6 +93,18 @@ aws --endpoint-url http://localhost:4566 s3 cp README.md s3://test/
 # List the copied file
 aws --endpoint-url http://localhost:4566 s3 ls s3://test/
 ```
+
+## Local GCS service based on [fake-gcs-server](https://github.com/fsouza/fake-gcs-server/tree/main)
+```shell
+curl -X POST 'http://localhost:4443/storage/v1/b' --data '{"name": "test"}'
+
+# List buckets
+curl http://localhost:4443/storage/v1/b
+
+# Get bucket detail
+curl http://localhost:4443/storage/v1/b/test
+```
+
 
 ## Sign your request body and test the API from Postman
 
